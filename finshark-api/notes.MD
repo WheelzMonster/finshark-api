@@ -7,3 +7,7 @@ UPDATE => PUT (change toute la ressource) ou PATCH (change partiellement la ress
 
 DELETE => DELETE
 
+ORM (entity framework ici) = Object Relational Mapper => ça transforme les colonnes des tables de BDD en Objet
+
+ApplicationDBCOntext va nous permettre de spécifier à quelle table nous voulons accéder
+
