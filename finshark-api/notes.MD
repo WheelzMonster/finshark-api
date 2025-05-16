@@ -19,6 +19,9 @@ un dto pour ne renvoyer que le username, en gros je controle ce que j'expose
 
 ![img.png](img.png)
 
+ATTENTION il existe des DTO de response (celui dont je viens de parler) et des DTO de request
+ce qui fait globalement le même taff mais pour la création d'info (exemple on veut pouvoir controler les données avec lesquelles le user créer un truc,
+on va pas lui demander de renseigner un Id)
 
 Mapping = transformation d'un objet vers un autre
 
