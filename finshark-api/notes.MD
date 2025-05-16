@@ -74,3 +74,10 @@ Déclare les champs visibles	Définit comment les remplir
 Structure statique	Logique dynamique
 Ne contient pas de logique métier	Peut en contenir un peu (filtrage, formatage)
 Ne change presque jamais	Change plus facilement si besoin
+
+.find VS .firstOrDefault
+Find est Uniquement utilisable avec la clé primaire.
+Tu ne peux pas faire de conditions comme Find(x => x.Symbol == "AAPL") → ça n’existe pas.
+
+avec firstOrDefault on peut faire des choses plus complexes
+_dbContext.Stocks.FirstOrDefault(s => s.Symbol == "AAPL" && s.Price > 100);
