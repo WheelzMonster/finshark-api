@@ -1,4 +1,5 @@
 ﻿using finshark_api.Data;
+using finshark_api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace finshark_api.Controllers;
@@ -16,7 +17,7 @@ public class StockController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var stocks = _dbContext.Stocks.ToList();
+        var stocks = _dbContext.Stocks.Select(s => s.ToStockDto()).ToList(); // Select = map() en JS
         return Ok(stocks);
     }
 
@@ -28,6 +29,6 @@ public class StockController : ControllerBase
         {
             return NotFound();
         }
-        return Ok(stock);
+        return Ok(stock.ToStockDto());
     }
 }
