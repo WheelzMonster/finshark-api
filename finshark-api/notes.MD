@@ -76,8 +76,17 @@ Ne contient pas de logique métier	Peut en contenir un peu (filtrage, formatage)
 Ne change presque jamais	Change plus facilement si besoin
 
 .find VS .firstOrDefault
+
 Find est Uniquement utilisable avec la clé primaire.
 Tu ne peux pas faire de conditions comme Find(x => x.Symbol == "AAPL") → ça n’existe pas.
 
 avec firstOrDefault on peut faire des choses plus complexes
 _dbContext.Stocks.FirstOrDefault(s => s.Symbol == "AAPL" && s.Price > 100);
+
+Pour Async / Await
+une fonction avec async, renverra toujours une Task<UnType> genre Task<ActionResult>
+parce que sur une fonction async il faut etre sur que quelque chose est return
+si le traitement n'est pas fini (et donc que le actionResult est pas encore la)
+alors rien ne serait renvoyé, c'est pour cela qu'on wrap le tout dans une task, pour avoir quelque chose en attendant
+et des que la fonction a fini alors on renvoi le actionResult
+
