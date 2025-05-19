@@ -11,11 +11,9 @@ namespace finshark_api.Controllers;
 [Route("api/[controller]")]
 public class StockController : ControllerBase
 {
-    private readonly ApplicationDBContext _dbContext;
     private readonly IStockRepository _stockRepository;
-    public StockController(ApplicationDBContext dbContext, IStockRepository stockRepository)
+    public StockController(IStockRepository stockRepository)
     {
-        _dbContext = dbContext;
         _stockRepository = stockRepository;
     }
     // on récupère toutes les données 
