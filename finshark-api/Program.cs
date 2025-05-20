@@ -2,6 +2,7 @@ using finshark_api.Data;
 using finshark_api.Interfaces;
 using finshark_api.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+});
 
 // important de mettre ça avant le builder.build(), c'est les options de connexion ou on  récupère le contexte créé
 builder.Services.AddDbContext<ApplicationDBContext>(options =>

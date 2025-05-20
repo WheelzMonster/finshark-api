@@ -1,4 +1,6 @@
-﻿namespace finshark_api.DTOs.Stock;
+﻿using finshark_api.DTOs.Comment;
+
+namespace finshark_api.DTOs.Stock;
 
 
 //le DTO de stock par exemple ici, ne contient pas la propriété Comment car on ne veut pas la rendre accessible à l'utilisateur, on modifie la structure de l'objet, et ses données avec un mapper
@@ -11,4 +13,5 @@ public class StockDto
     public decimal LastDividend { get; set; }
     public string Industry { get; set; } = string.Empty;
     public long MarketCap { get; set; }
+    public List<CommentDto> Comments { get; set; } = new List<CommentDto>();
 }

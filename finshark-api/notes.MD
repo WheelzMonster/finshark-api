@@ -90,3 +90,26 @@ si le traitement n'est pas fini (et donc que le actionResult est pas encore la)
 alors rien ne serait renvoyé, c'est pour cela qu'on wrap le tout dans une task, pour avoir quelque chose en attendant
 et des que la fonction a fini alors on renvoi le actionResult
 
+
+🧠 .Include() sert à quoi ?
+.Include() permet de charger explicitement des données liées (relations) à une entité principale, en une seule requête SQL.
+
+C’est ce qu’on appelle le "eager loading" (chargement anticipé).
+
+🎯 Sans .Include() :
+Tu récupères uniquement l’objet principal.
+
+Exemple :
+var stock = await _dbContext.Stocks
+.FirstOrDefaultAsync(s => s.Id == 1);
+Tu obtiens un Stock, mais sa liste de Comments est vide (non chargée), même si elle existe en base.
+
+✅ Avec .Include() :
+
+var stock = await _dbContext.Stocks
+.Include(s => s.Comments)
+.FirstOrDefaultAsync(s => s.Id == 1);
+Tu obtiens le Stock, et EF Core inclut aussi les Comments liés.
+
+➡ Cela génère une requête SQL avec jointure pour ramener tous les commentaires associés dès le départ.
+

@@ -14,7 +14,8 @@ public static class StockMappers
             Id = stockModel.Id,
             Symbol = stockModel.Symbol,
             CompanyName = stockModel.CompanyName,
-            Industry = stockModel.Industry
+            Industry = stockModel.Industry,
+            Comments = stockModel.Comments.Select(c => c.ToCommentDto()).ToList()
         };
     }
     
