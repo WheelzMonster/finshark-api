@@ -24,4 +24,11 @@ public class CommentRepository : ICommentRepository
     {
         return await _dbContext.Comments.FindAsync(id);
     }
+
+    public async Task<Comment> CreateAsync(Comment commentModel)
+    {
+        await _dbContext.Comments.AddAsync(commentModel);
+        await _dbContext.SaveChangesAsync();
+        return commentModel;
+    }
 }

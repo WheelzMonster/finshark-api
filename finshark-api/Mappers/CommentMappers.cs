@@ -17,4 +17,15 @@ public static class CommentMappers
 
         };
     }
+    
+    public static Comment ToCommentFromCreate(this CreateCommentRequestDto createdCommentModel, int stockId)
+    {
+        return new Comment()
+        {
+            Title = createdCommentModel.Title,
+            Content = createdCommentModel.Content,
+            StockId = stockId
+        };
+    }
+    
 }
