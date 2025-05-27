@@ -1,4 +1,5 @@
 ﻿using finshark_api.Data;
+using finshark_api.DTOs.Comment;
 using finshark_api.Interfaces;
 using finshark_api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -30,5 +31,19 @@ public class CommentRepository : ICommentRepository
         await _dbContext.Comments.AddAsync(commentModel);
         await _dbContext.SaveChangesAsync();
         return commentModel;
+    }
+
+    public async Task<Comment?> UpdateAsync(int id, UpdateCommentRequestDto updateCommentRequestDto)
+    {
+        var comment = await _dbContext.Comments.FindAsync(id);
+        if (comment == null)
+        {
+            return null;
+        }
+        comment.Title = updateCommentRequestDto.Title;
+        comment.Content = updateCommentRequestDto.Content;
+        
+        await _dbContext.SaveChangesAsync();
+        return comment;
     }
 }
