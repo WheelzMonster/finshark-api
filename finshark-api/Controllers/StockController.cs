@@ -25,7 +25,7 @@ public class StockController : ControllerBase
         return Ok(stocksDto);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int:min(1)}")]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
         var stock = await _stockRepository.GetByIdAsync(id);
@@ -44,9 +44,13 @@ public class StockController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = stock.Id }, stock.ToStockDto()); 
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int:min(1)}")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDto updatedStockModel)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var stock = await _stockRepository.UpdateAsync(id, updatedStockModel);
         if (stock == null)
         {
@@ -55,9 +59,13 @@ public class StockController : ControllerBase
         return Ok(stock.ToStockDto());
     }
 
-    [HttpPatch("{id}")]
+    [HttpPatch("{id:int:min(1)}")]
     public async Task<IActionResult> UpdateCompanyName([FromRoute] int id, [FromBody] UpdateCompanyNameDto updatedCompanyModel)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var stock = await _stockRepository.UpdateCompanyAsync(id, updatedCompanyModel);
         if (stock == null)
         {
@@ -66,7 +74,7 @@ public class StockController : ControllerBase
         return Ok(stock.ToStockDto());
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int:min(1)}")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         var stock = await _stockRepository.DeleteAsync(id);
