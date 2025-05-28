@@ -1,5 +1,6 @@
 ﻿using finshark_api.Data;
 using finshark_api.DTOs.Stock;
+using finshark_api.Helpers;
 using finshark_api.Interfaces;
 using finshark_api.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,9 @@ public class StockController : ControllerBase
     }
     // on récupère toutes les données 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
     {
-        var stocks = await _stockRepository.GetAllAsync();
+        var stocks = await _stockRepository.GetAllAsync(query);
         var stocksDto = stocks.Select(stock => stock.ToStockDto()); // select() = map() en JS
         return Ok(stocksDto);
     }

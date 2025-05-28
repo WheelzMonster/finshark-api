@@ -1,5 +1,6 @@
 ﻿using finshark_api.Data;
 using finshark_api.DTOs.Stock;
+using finshark_api.Helpers;
 using finshark_api.Interfaces;
 using finshark_api.Mappers;
 using finshark_api.Models;
@@ -16,10 +17,27 @@ public class StockRepository : IStockRepository
     { 
         _dbContext = dbContext;
     }
-    public async Task<List<Stock>> GetAllAsync()
+    public async Task<List<Stock>> GetAllAsync(QueryObject query)
     {
-        return await _dbContext.Stocks.Include(s=>s.Comments).ToListAsync();
+        var stocks = _dbContext.Stocks.Include(s=>s.Comments).AsQueryable();
+        if (!string.IsNullOrWhiteSpace(query.CompanyName))
+        {
+            stocks = stocks.Where(s => s.CompanyName.Contains(query.CompanyName));
+        }
 
+        if (!string.IsNullOrWhiteSpace(query.Symbol))
+        {
+            stocks = stocks.Where(s => s.Symbol.Contains(query.Symbol));
+        }
+
+        if (!string.IsNullOrWhiteSpace(query.SortBy))
+        {
+            if (query.SortBy.Equals("Symbol", StringComparison.OrdinalIgnoreCase))
+            {
+                stocks = query.IsDescending ? stocks.OrderByDescending(s => s.Symbol) : stocks.OrderBy(s => s.Symbol);
+            }
+        }
+        return await stocks.ToListAsync();
     }
 
     public async Task<Stock?> GetByIdAsync(int id)
