@@ -113,3 +113,39 @@ Tu obtiens le Stock, et EF Core inclut aussi les Comments liés.
 
 ➡ Cela génère une requête SQL avec jointure pour ramener tous les commentaires associés dès le départ.
 
+
+Pagination :
+
+🧠 Contexte :
+Imaginons que tu as une requête comme :
+
+json
+
+{
+"PageNumber": 2,
+"PageSize": 5
+}
+→ Tu veux récupérer les éléments de la page 2, avec 5 éléments par page.
+
+🔍 Ligne par ligne :
+```csharp
+var skipNumber = (query.PageNumber - 1) * query.PageSize;
+
+
+👉 Calcule **combien d’éléments il faut ignorer (skip)** pour arriver au début de la page demandée.
+
+- Page 1 → `skip = (1 - 1) * 5 = 0`
+- Page 2 → `skip = (2 - 1) * 5 = 5`
+- Page 3 → `skip = (3 - 1) * 5 = 10`
+
+> Donc si tu veux la page 3, tu ignores les 10 premiers éléments.
+
+---
+
+### ```csharp
+return await stocks.Skip(skipNumber).Take(query.PageSize).ToListAsync();
+Skip(skipNumber) → Ignore les éléments précédents
+
+Take(query.PageSize) → Prend le bon nombre d’éléments pour la page
+
+ToListAsync() → Exécute la requête en base et retourne la liste
